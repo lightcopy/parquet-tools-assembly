@@ -1,17 +1,76 @@
-*.class
-*.log
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
-# sbt specific
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+# lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
 .cache
-.history
-.lib/
-dist/*
-target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
+nosetests.xml
+coverage.xml
+*,cover
 
-# Scala-IDE specific
-.scala_dependencies
-.worksheet
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+*.log.*
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# temp folders
+tmp/
+
+# lib dependencies that are not permanent
+!lib/
+lib/*
+!lib/.placeholder
+
+!staging/
+staging/*
+!staging/.placeholder
+
+# virtual environment
+venv/
+
+MANIFEST
+!MANIFEST.in
