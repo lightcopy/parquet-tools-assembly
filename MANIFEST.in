@@ -1,3 +1,6 @@
+exclude *.py *.cfg
+prune *.egg-info
+
 # Include scripts and dependencies
 graft bin
 graft lib
@@ -6,6 +9,3 @@ exclude lib/.placeholder
 # Include readme and license (same as Parquet)
 include README.md
 include LICENSE
-
-prune *.egg-info
-exclude setup.py setup.cfg

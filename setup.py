@@ -43,6 +43,15 @@ PARQUET_TOOLS = "parquet-tools"
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 STAGING_DIR = os.path.realpath(os.path.join(ROOT_DIR, "staging"))
 LIB_DIR = os.path.realpath(os.path.join(ROOT_DIR, "lib"))
+# Get distribution name based on processed tag and client mode
+
+def get_distribution_name():
+    for path in os.listdir(LIB_DIR):
+        if path.endswith(".tag") and not path.startswith(".tag"):
+            return os.path.splitext(path)[0]
+    return "parquet-tools-assembly"
+
+DISTR_NAME = get_distribution_name()
 
 class Assembly(Command):
     description = "Prepare assembly for parquet-tools"
@@ -67,13 +76,23 @@ class Assembly(Command):
         else:
             print "[INFO] Exclude Hadoop dependencies"
 
+    def _tag_name(self, tag, client):
+        hadoop = ""
+        if client:
+            hadoop = "-dh"
+        return "parquet-tools-dist-%s%s.tag" % (tag, hadoop)
+
+    def _touch(self, path):
+        with open(path, 'a'):
+            os.utime(path, None)
+
     def run(self):
         try:
             repo = Repo()
             # clean up lib directory, remove al jar files in it
             print "[INFO] Clean up %s" % LIB_DIR
             for path in os.listdir(LIB_DIR):
-                if path.endswith(".jar"):
+                if path.endswith(".jar") or path.endswith(".tag"):
                     fpath = os.path.join(LIB_DIR, path)
                     os.remove(fpath)
             # clone repository, and get path for repository
@@ -89,6 +108,9 @@ class Assembly(Command):
             for jar in os.listdir(targetDir):
                 if jar.startswith(PARQUET_TOOLS) and jar.endswith(".jar"):
                     shutil.copy(os.path.join(targetDir, jar), LIB_DIR)
+            # create distribution name file
+            name = os.path.join(LIB_DIR, self._tag_name(self.tag, self.client))
+            self._touch(name)
         except Exception as err:
             print "[ERROR] %s" % err
             sys.exit(1)
@@ -132,7 +154,7 @@ class Repo(object):
         print "[INFO] Successfully packaged project in %s" % directory
 
 setup(
-    name="parquet-tools-assembly",
+    name=DISTR_NAME,
     version=VERSION,
     description="Parquet-tools assembly",
     long_description="Prepare assembly and distribution for parquet-tools",

@@ -26,7 +26,6 @@
 # the JAVA_OPTS and PARQUET_TOOLS_OPTS environment variables.
 DEFAULT_JVM_OPTS=""
 
-# Determine the path to the script's directory
 bin="`dirname "$0"`"
 ROOT_DIR="`cd "$bin/../"; pwd`"
 

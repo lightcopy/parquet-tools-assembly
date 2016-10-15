@@ -18,11 +18,17 @@
 # under the License.
 #
 
-# The name of the top-level script
-TOPSCRIPT="parquet-tools"
-
 bin="`dirname "$0"`"
 ROOT_DIR="`cd "$bin/../"; pwd`"
 
-# Run the application
-exec "$ROOT_DIR/bin/$TOPSCRIPT" head "$@"
+PYTHONCMD=$(which python)
+
+if [ ! -x "${PYTHONCMD}" ]; then
+  echo ""
+  echo "ERROR: Cannot find a python executable."
+  echo ""
+  exit 1
+fi
+
+${PYTHONCMD} ${ROOT_DIR}/setup.py assembly "$@" && \
+  ${PYTHONCMD} ${ROOT_DIR}/setup.py sdist --formats=gztar,zip && echo "Done, all good!"
