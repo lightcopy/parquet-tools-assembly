@@ -71,6 +71,7 @@ class Assembly(Command):
         else:
             print "[INFO] Using tag %s" % self.tag
 
+        self.client = self.client == "true".lower()
         if self.client:
             print "[INFO] Include Hadoop dependencies"
         else:
